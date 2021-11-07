@@ -11,6 +11,7 @@ import { Layout, Menu, Breadcrumb } from 'antd';
 import Home from './pages/Home'
 import Tramite from './pages/Tramite'
 import Tramites from './pages/Tramites'
+import FormJson from './pages/Form'
 const { Header, Content, Footer } = Layout;
 
 
@@ -25,7 +26,7 @@ function App() {
               <Link to="/"><span className="nav-text">Ventanilla</span></Link>
             </Menu.Item>
             <Menu.Item key="2">
-              <Link to="/tramites"><span className="nav-text">Estado de trámites</span></Link>
+              <Link to="/form"><span className="nav-text">Estado de trámites</span></Link>
             </Menu.Item>
           </Menu>
         </Header>
@@ -34,6 +35,7 @@ function App() {
             <Route exact path="/" component={Home} />
             <Route exact path="/tramite" component={Tramite} />
             <Route exact path="/tramites" component={Tramites} />
+            <Route exact path="/form" component={FormJson} />
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>Secretaria Distrital de Salud ©2021 Powered By Grupo Ares</Footer>
