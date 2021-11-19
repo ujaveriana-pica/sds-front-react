@@ -79,15 +79,18 @@ const FormJson = () => {
     const [disabledRadicar, setDisabledRadicar] = useState(true);
     const [schema, setSchema] = useState({});
     const [uploadFiles, setUploadFiles] = useState(new Map());
+    const apiUrl = window.location.protocol + "//" + window.location.hostname + "/front-office";
 
     useEffect(() => {
-        fetch('http://localhost/schema/autorizacion-titulos', {
+        fetch(apiUrl + '/esquema/autorizacion-titulos', {
             method: 'GET', // *GET, POST, PUT, DELETE, etc.
             mode: 'cors', // no-cors, *cors, same-origin
             cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
             credentials: 'same-origin', // include, *same-origin, omit
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + localStorage.getItem('token'),
+              'x-auth-token': 'cHJ1ZWJhMTtjaXVkYWRhbm8='
             }
         }).then(function(response) {
             setDisabledSubmit(false);
@@ -118,7 +121,7 @@ const FormJson = () => {
             data: e.formData,
             type: schema.type
         }
-        fetch('http://localhost/forms', {
+        fetch(apiUrl + '/tramite', {
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
             mode: 'cors', // no-cors, *cors, same-origin
             cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -151,7 +154,6 @@ const FormJson = () => {
 
     const onUpload = (uploadType) => {
         console.log(uploadFiles);
-        console.log("FEO !!!! " + uploadType)
         uploadFiles.set(uploadType, true);
         
         uploadFiles.forEach((value, key) => {
@@ -168,7 +170,7 @@ const FormJson = () => {
 
     const onRadicar = (e) => {
         setDisabledRadicar(true);
-        fetch('http://localhost/forms/radicar/' + formData.id, {
+        fetch(apiUrl + '/tramite/radicar/' + formData.id, {
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
             mode: 'cors', // no-cors, *cors, same-origin
             cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached

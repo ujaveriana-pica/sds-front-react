@@ -4,10 +4,11 @@ import 'antd/dist/antd.css';
 import '../index.css';
 
 const FileUpload = (props) => {
+  const apiUrl = window.location.protocol + "//" + window.location.hostname + "/front-office";
 
     const propsUpload = {
         name: props.type,
-        action: `http://localhost/attachments/${props.formType}/${props.formId}/${props.uploadType}`,
+        action: apiUrl + `/adjunto/${props.formType}/${props.formId}/${props.uploadType}`,
         headers: {
           authorization: 'authorization-text',
         },
