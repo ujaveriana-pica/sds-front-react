@@ -2,6 +2,7 @@ import { Upload, message, Button } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import '../index.css';
+import { uploadHeaders } from '../clients/RestClient';
 
 const FileUpload = (props) => {
   const apiUrl = window.location.protocol + "//" + window.location.hostname + "/front-office";
@@ -9,9 +10,7 @@ const FileUpload = (props) => {
     const propsUpload = {
         name: props.type,
         action: apiUrl + `/adjunto/${props.formType}/${props.formId}/${props.uploadType}`,
-        headers: {
-          authorization: 'authorization-text',
-        },
+        headers: uploadHeaders,
         beforeUpload: file => {
           if (file.type !== 'image/png') {
             message.error(`${file.name} is not a png file`);

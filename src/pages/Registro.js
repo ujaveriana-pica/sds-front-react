@@ -2,6 +2,8 @@ import { React, useState} from 'react';
 import 'antd/dist/antd.css';
 import '../index.css';
 import { Form, Input, Button, Divider, message } from 'antd';
+import { RestClientPost } from '../clients/RestClient';
+
 const layout = {
   labelCol: {
     span: 4,
@@ -23,37 +25,29 @@ const Tramite = () => {
 
   const onFinish = (values) => {
     console.log(values);
-    const apiUrl = window.location.protocol + "//" + window.location.hostname + "/api";
     if(values.password === values.password2) {
         setDisabledRegistrarse(true);
         values.status = "ACTIVE";
         values.rol = "CIUDADANO"
-        fetch(apiUrl + '/user/sign-up', {
-            method: 'POST', // *GET, POST, PUT, DELETE, etc.
-            mode: 'cors', // no-cors, *cors, same-origin
-            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-            credentials: 'same-origin', // include, *same-origin, omit
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(values)
-        }).then(function(response) {
-            if(response.ok) {
-              response.json().then(data => {
-                message.info("Usuario creado satisfactoriamente");
-                form.resetFields();
-                setDisabledRegistrarse(false);
-              });
-            } else {
-                message.error("Se ha presentado un error. Por favor intente nuevamente.");
-                console.log(response);
-                setDisabledRegistrarse(false);
-            }
-          })
-          .catch(function(error) {
-            console.log('Hubo un problema con la petición Fetch:' + error.message);
-            setDisabledRegistrarse(false);
-          });
+        RestClientPost('/identity-provider/api/user/sign-up', JSON.stringify(values),
+                (response) => {
+                  if(response.ok) {
+                    response.json().then(data => {
+                      message.info("Usuario creado satisfactoriamente");
+                      form.resetFields();
+                      setDisabledRegistrarse(false);
+                    });
+                  } else {
+                      message.error("Se ha presentado un error. Por favor intente nuevamente.");
+                      console.log(response);
+                      setDisabledRegistrarse(false);
+                  }
+                },
+                (error) => {
+                  console.log('Hubo un problema con la petición Fetch:' + error.message);
+                  setDisabledRegistrarse(false);
+                }
+            );
     } else {
         message.error("Los password no coinciden, por favor confirme el password correctamente");
         setDisabledRegistrarse(false);

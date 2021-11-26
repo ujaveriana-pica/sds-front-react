@@ -5,6 +5,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import FileUpload from '../components/FileUpload';
 import 'antd/dist/antd.css';
 import '../index.css';
+import { RestClientGet, RestClientPost } from '../clients/RestClient';
 import { convertLegacyProps } from 'antd/lib/button/button';
 
 const schema2 = { 
@@ -82,36 +83,28 @@ const FormJson = () => {
     const apiUrl = window.location.protocol + "//" + window.location.hostname + "/front-office";
 
     useEffect(() => {
-        fetch(apiUrl + '/esquema/autorizacion-titulos', {
-            method: 'GET', // *GET, POST, PUT, DELETE, etc.
-            mode: 'cors', // no-cors, *cors, same-origin
-            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-            credentials: 'same-origin', // include, *same-origin, omit
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer ' + localStorage.getItem('token'),
-              'x-auth-token': 'cHJ1ZWJhMTtjaXVkYWRhbm8='
+        RestClientGet('/front-office/esquema/autorizacion-titulos',
+            (response) => {
+                setDisabledSubmit(false);
+                if(response.ok) {
+                response.json().then(data => {
+                    setSchema(data);
+                    var up = new Map();
+                    data.uploads.forEach((value) => {
+                        up.set(value.type, false);
+                    })
+                    setUploadFiles(up);
+                });
+                } else {
+                    message.error("Se ha presentado un error. Por favor intente nuevamente.");
+                    console.log(response);
+                }
+            },
+            (error) => {
+                setDisabledSubmit(false);
+                console.log('Hubo un problema con la petición Fetch:' + error.message);
             }
-        }).then(function(response) {
-            setDisabledSubmit(false);
-            if(response.ok) {
-              response.json().then(data => {
-                setSchema(data);
-                var up = new Map();
-                data.uploads.forEach((value) => {
-                    up.set(value.type, false);
-                })
-                setUploadFiles(up);
-              });
-            } else {
-                message.error("Se ha presentado un error. Por favor intente nuevamente.");
-                console.log(response);
-            }
-          })
-          .catch(function(error) {
-            setDisabledSubmit(false);
-            console.log('Hubo un problema con la petición Fetch:' + error.message);
-          });
+        );
       }, []);
 
     const onSubmit = (e) => {
@@ -121,35 +114,26 @@ const FormJson = () => {
             data: e.formData,
             type: schema.type
         }
-        fetch(apiUrl + '/tramite', {
-            method: 'POST', // *GET, POST, PUT, DELETE, etc.
-            mode: 'cors', // no-cors, *cors, same-origin
-            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-            credentials: 'same-origin', // include, *same-origin, omit
-            headers: {
-              'Content-Type': 'application/json'
-              // 'Content-Type': 'application/x-www-form-urlencoded',
+        RestClientPost('/front-office/tramite', JSON.stringify(form),
+            (response) => {
+                setDisabledSubmit(false);
+                if(response.ok) {
+                response.json().then(data => {
+                    setFormData(data);
+                    setStep(1);
+                    console.log(data.id);
+                    console.log("GRABADO");
+                });
+                } else {
+                    message.error("Se ha presentado un error. Por favor intente nuevamente.");
+                    console.log(response);
+                }
             },
-            body: JSON.stringify(form)
-        }).then(function(response) {
-            setDisabledSubmit(false);
-            if(response.ok) {
-              response.json().then(data => {
-                setFormData(data);
-                setStep(1);
-                console.log(data.id);
-                console.log("GRABADO");
-              });
-            } else {
-                message.error("Se ha presentado un error. Por favor intente nuevamente.");
-                console.log(response);
+            (error) => {
+                setDisabledSubmit(false);
+                console.log('Hubo un problema con la petición Fetch:' + error.message);
             }
-          })
-          .catch(function(error) {
-            setDisabledSubmit(false);
-            console.log('Hubo un problema con la petición Fetch:' + error.message);
-          });
-        
+        );
     }
 
     const onUpload = (uploadType) => {
@@ -170,30 +154,23 @@ const FormJson = () => {
 
     const onRadicar = (e) => {
         setDisabledRadicar(true);
-        fetch(apiUrl + '/tramite/radicar/' + formData.id, {
-            method: 'POST', // *GET, POST, PUT, DELETE, etc.
-            mode: 'cors', // no-cors, *cors, same-origin
-            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-            credentials: 'same-origin', // include, *same-origin, omit
-            headers: {
-              'Content-Type': 'application/json'
-              // 'Content-Type': 'application/x-www-form-urlencoded',
-            }
-        }).then(function(response) { 
-            if(response.ok) {
-              response.json().then(data => {
-                setStep(2);
-              });
-            } else {
+        RestClientPost('/front-office/tramite/radicar/' + formData.id, null,
+            (response) => {
+                if(response.ok) {
+                    response.json().then(data => {
+                      setStep(2);
+                    });
+                } else {
+                    setDisabledRadicar(false);
+                    message.error("Se ha presentado un error. Por favor intente nuevamente.");
+                    console.log(response);
+                }
+            },
+            (error) => {
                 setDisabledRadicar(false);
-                message.error("Se ha presentado un error. Por favor intente nuevamente.");
-                console.log(response);
+                console.log('Hubo un problema con la petición Fetch:' + error.message);
             }
-          })
-          .catch(function(error) {
-            setDisabledRadicar(false);
-            console.log('Hubo un problema con la petición Fetch:' + error.message);
-          });
+        );
     }
 
     if(step === 0) {

@@ -12,9 +12,9 @@ server {
 		try_files $uri $uri/ /index.html;
 	}
 	location /front-office {
-		proxy_pass   http://${FRONT_OFFICE_HOST}:${FRONT_OFFICE_PORT};
+		proxy_pass   http://${API_GATEWAY_HOST}:${API_GATEWAY_PORT};
 	}
-	location /api {
-		proxy_pass   http://${IDENTITY_PROVIDER_HOST}:${IDENTITY_PROVIDER_PORT};
+	location /identity-provider {
+		proxy_pass   http://${API_GATEWAY_HOST}:${API_GATEWAY_PORT};
 	}
 }

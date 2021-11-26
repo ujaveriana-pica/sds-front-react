@@ -1,6 +1,7 @@
 import { Table, Space } from 'antd';
 import React, { useState, useEffect } from 'react';
 import { message } from 'antd';
+import {RestClientGet} from '../clients/RestClient';
 import 'antd/dist/antd.css';
 import '../index.css';
 
@@ -22,6 +23,11 @@ const dataSource2 = [
 ];
   
 const columns = [
+  {
+    title: 'Código Radicación',
+    dataIndex: 'id',
+    key: 'id',
+  },
   {
     title: 'Tipo de trámite',
     dataIndex: 'tipo',
@@ -55,20 +61,9 @@ const columns = [
   
 const Tramites = () => {
   const [dataSource, setDataSource] = useState([]);
-
-  const apiUrl = window.location.protocol + "//" + window.location.hostname + "/front-office";
-
   useEffect(() => {
-    fetch(apiUrl + '/tramite/usuario/1', {
-        method: 'GET', // *GET, POST, PUT, DELETE, etc.
-        mode: 'cors', // no-cors, *cors, same-origin
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: 'same-origin', // include, *same-origin, omit
-        headers: {
-          'Content-Type': 'application/json',
-          'x-auth-token': 'cHJ1ZWJhMTtjaXVkYWRhbm8='
-        }
-    }).then(function(response) {
+    RestClientGet('/front-office/tramite/usuario/1',
+      (response) => {
         if(response.ok) {
           response.json().then(data => {
             setDataSource(data);
@@ -77,10 +72,11 @@ const Tramites = () => {
             message.error("Se ha presentado un error. Por favor intente nuevamente.");
             console.log(response);
         }
-      })
-      .catch(function(error) {
+      },
+      (error) => {
         console.log('Hubo un problema con la petición Fetch:' + error.message);
-      });
+      }
+    );
   }, []);
 
   if(dataSource && dataSource.length > 0) {
