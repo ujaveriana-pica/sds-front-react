@@ -51,11 +51,15 @@ const columns = [
   {
     title: 'Acción',
     key: 'accion',
-    render: (text, record) => (
-      <Space size="middle">
-        <a href={ `/tramite/${record.id}`}>Ver</a>
-      </Space>
-    ),
+    render: (text, record) => {
+      if(record.estado === "aprobado-generado" || record.estado === "desaprobado-generado" || record.estado === "APROBADO-GENERADO" || record.estado === "DESAPROBADO-GENERADO") {
+        return(
+          <Space size="middle">
+            <a href={ `/tramite/${record.id}`}>Ver resolución</a>
+          </Space>
+        )
+      }
+    },
   },
 ];
   

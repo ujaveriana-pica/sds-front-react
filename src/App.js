@@ -6,7 +6,7 @@ import {
   Link,
 } from "react-router-dom";
 import 'antd/dist/antd.css';
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { Layout, Menu, Breadcrumb, Row, Col } from 'antd';
 
 import Home from './pages/Home'
 import Login from './pages/Login'
@@ -64,15 +64,14 @@ function App() {
   else {
     return(
       <Router>
-          <Layout className="layout">
-            <Content style={{ padding: '0 50px' }}>
-              <div className="site-layout-content">
-                <Route exact path="/" component={Login} />
-                <Route exact path="/registro" component={Registro} />
-              </div>
-            </Content>
-          </Layout>
-        </Router>
+        <Row>
+          <Col span={8} offset={8}>
+            <Route exact path="/" component={Login} />
+            <Route exact path="/registro" component={Registro} />
+          </Col>
+        </Row>
+        
+      </Router>
     )
   }
 }

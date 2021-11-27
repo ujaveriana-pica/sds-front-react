@@ -37,66 +37,69 @@ const Login = () => {
 
     return (
     <>
-        <Row>
-        <Col span={32}>
-            <Space direction="horizontal">
-                <Form
-                    name="basic"
-                    labelCol={{
-                    span: 8,
-                    }}
-                    wrapperCol={{
-                    span: 16,
-                    }}
-                    initialValues={{
-                    remember: true,
-                    }}
-                    autoComplete="off"
-                    onFinish={onFinish}
-                >
-                    <Form.Item
-                    label="Usuario"
-                    name="username"
-                    rules={[
-                        {
-                        required: true,
-                        message: 'Por favor ingrese el nombre de usuario !',
-                        },
-                    ]}
-                    >
-                    <Input />
-                    </Form.Item>
-
-                    <Form.Item
-                    label="Password"
-                    name="password"
-                    rules={[
-                        {
-                        required: true,
-                        message: 'Por favor ingrese la clave !',
-                        },
-                    ]}
-                    >
-                    <Input.Password />
-                    </Form.Item>
-
-                    <Form.Item
-                    wrapperCol={{
-                        offset: 8,
-                        span: 16,
-                    }}
-                    >
-                    <Button type="primary" htmlType="submit">
-                        Submit
-                    </Button>
-                    </Form.Item>
-                </Form>
-            </Space>
-        </Col>
+        <Row justify="center">
+            <Col span={32}><div><img src="alcaldiac_logo.png" /></div></Col>
         </Row>
-        <Row>
-            <Col span={6}>
-                Para realizar un trámite debe <Link to="/registro">registrarse</Link> como usuario sin ningun costo haciendo clic <Link to="/registro">aqui</Link>
+        <Row justify="center">
+            <Col span={32}>
+                <Space direction="horizontal">
+                    <Form
+                        name="basic"
+                        labelCol={{
+                        span: 8,
+                        }}
+                        wrapperCol={{
+                        span: 16,
+                        }}
+                        initialValues={{
+                        remember: true,
+                        }}
+                        autoComplete="off"
+                        onFinish={onFinish}
+                    >
+                        <Form.Item
+                        label="Usuario"
+                        name="username"
+                        rules={[
+                            {
+                            required: true,
+                            message: 'Por favor ingrese el nombre de usuario !',
+                            },
+                        ]}
+                        >
+                        <Input />
+                        </Form.Item>
+
+                        <Form.Item
+                        label="Password"
+                        name="password"
+                        rules={[
+                            {
+                            required: true,
+                            message: 'Por favor ingrese la clave !',
+                            },
+                        ]}
+                        >
+                        <Input.Password />
+                        </Form.Item>
+
+                        <Form.Item
+                        wrapperCol={{
+                            offset: 8,
+                            span: 16,
+                        }}
+                        >
+                        <Button type="primary" htmlType="submit">
+                            Submit
+                        </Button>
+                        </Form.Item>
+                    </Form>
+                </Space>
+            </Col>
+        </Row>
+        <Row justify="center">
+            <Col span={32}>
+                Para realizar un trámite debe <Link to="/registro">registrarse</Link> como usuario sin ningún costo haciendo clic <Link to="/registro">aqui</Link>
             </Col>
         </Row>
     </>
