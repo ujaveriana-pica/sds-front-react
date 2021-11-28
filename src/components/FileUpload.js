@@ -2,10 +2,10 @@ import { Upload, message, Button } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import '../index.css';
-import { uploadHeaders } from '../clients/RestClient';
+import { uploadHeaders, hostname } from '../clients/RestClient';
 
 const FileUpload = (props) => {
-  const apiUrl = window.location.protocol + "//" + window.location.hostname + "/front-office";
+    const apiUrl = window.location.protocol + "//" + hostname + "/front-office"
 
     const propsUpload = {
         name: props.type,
