@@ -7,7 +7,8 @@ export const uploadHeaders = {
   'Authorization': 'Bearer ' + localStorage.getItem('token')
 }
 
-export const hostname = "ac8931068505649f1a8d6a39fc61e1b8-232651022.us-east-2.elb.amazonaws.com:8080";
+//export const hostname = "ac8931068505649f1a8d6a39fc61e1b8-232651022.us-east-2.elb.amazonaws.com:8080";
+export const hostname = "ac4f1c302f8a9402daa2dce7dc28cbec-991466665.us-east-2.elb.amazonaws.com";
 
 export const RestClientGet = (endpoint, okCallback, errorCallback) => {
     const apiUrl = window.location.protocol + "//" + hostname;
